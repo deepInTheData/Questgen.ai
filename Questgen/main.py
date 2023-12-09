@@ -35,10 +35,10 @@ class QGen:
     def __init__(self, pretrained_model='t5-large', sense2vec_directory="s2v_old"):
 
         self.tokenizer = T5Tokenizer.from_pretrained(pretrained_model) # google/flan-t5-large
-        model = T5ForConditionalGeneration.from_pretrained(pretrained_model) # 'Parth/result'
+        model = T5ForConditionalGeneration.from_pretrained('Parth/result') # 'Parth/result'
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         model.to(device)
-        model.eval()
+        # model.eval()
         self.device = device
         self.model = model
         self.nlp = spacy.load('en_core_web_sm')

@@ -31,13 +31,43 @@ mcq_payload = {
 # answers = predictor.predict_answer(qa_payload)
 # print(answers)
 
+# wget https://github.com/explosion/sense2vec/releases/download/v1.0.0/s2v_reddit_2015_md.tar.gz
+# tar -xvf  s2v_reddit_2015_md.tar.gz
+
 start_time = perf_counter()
 qg = main.QGen()
 print('AI instantiated in', perf_counter()-start_time)
 
 
+def chunk_text(text, max_length=512):
+    # Splits the text into chunks of max_length
+    return [text[i:i+max_length] for i in range(0, len(text), max_length)]
 
-output = qg.predict_mcq(mcq_payload)
-pprint.pprint (output)
+with open("mcq.txt","w") as questions:
+    with open("file.txt", "r") as f:
+        text = f.read()
+        chunks = chunk_text(text)
+        all_outputs = []
+        for chunk in chunks:
+            mcq_payload['input_text'] = chunk
+            output = qg.predict_mcq(mcq_payload)
+            print(output)
+            if "questions" not in output:
+                continue
+
+            # mcq_payload['input_text'] = text
+            # output = qg.predict_mcq(mcq_payload)
+            pprint.pprint (output['questions'])
+            for each in output['questions']:
+                questions.write(each['context'])
+                questions.write("\n")
+                questions.write(each['question_statement'])
+                questions.write("\n")
+                questions.write(each['answer'])
+                questions.write("\n")
+                questions.write(" ".join(each['options']))
+                questions.write("\n--------\n")
+            
+        # pprint.pprint (output)
 
 
