@@ -16,9 +16,7 @@ import pke
 import nltk
 import numpy 
 from nltk import FreqDist
-nltk.download('brown', quiet=True, force=True)
-nltk.download('stopwords', quiet=True, force=True)
-nltk.download('popular', quiet=True, force=True)
+
 from nltk.corpus import stopwords
 from nltk.corpus import brown
 from similarity.normalized_levenshtein import NormalizedLevenshtein
@@ -34,13 +32,13 @@ import time
 
 class QGen:
     
-    def __init__(self):
+    def __init__(self, pretrained_model='t5-large'):
 
-        self.tokenizer = T5Tokenizer.from_pretrained('t5-large')
+        self.tokenizer = T5Tokenizer.from_pretrained(pretrained_model) # google/flan-t5-large
         model = T5ForConditionalGeneration.from_pretrained('Parth/result')
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         model.to(device)
-        # model.eval()
+        model.eval()
         self.device = device
         self.model = model
         self.nlp = spacy.load('en_core_web_sm')
@@ -155,7 +153,7 @@ class QGen:
         self.sentence= text
         self.text= "paraphrase: " + self.sentence + " </s>"
 
-        encoding = self.tokenizer.encode_plus(self.text,pad_to_max_length=True, return_tensors="pt")
+        encoding = self.tokenizer.encode_plus(self.text, truncation=True, padding='max_length', return_tensors="pt")
         input_ids, attention_masks = encoding["input_ids"].to(self.device), encoding["attention_mask"].to(self.device)
 
         beam_outputs = self.model.generate(

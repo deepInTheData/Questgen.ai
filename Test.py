@@ -1,6 +1,17 @@
 from Questgen import main
+import pprint 
+from time import perf_counter
+import nltk
+import spacy 
 
-payload = {
+
+nltk.download('brown')
+nltk.download('popular')
+nltk.download('universal_tagset')
+nltk.download('stopwords')
+# spacy.cli.download("en_core_web_sm")
+
+qa_payload = {
     "input_text": """Computer vision is a field of artificial intelligence (AI) that enables computers and systems to derive meaningful information from digital images, videos and other visual inputs — and take actions or make recommendations based on that information. If AI enables computers to think, computer vision enables them to see, observe and understand.
 
 Computer vision works much the same as human vision, except humans have a head start. Human sight has the advantage of lifetimes of context to train how to tell objects apart, how far away they are, whether they are moving and whether there is something wrong in an image.
@@ -12,8 +23,21 @@ Computer vision is used in industries ranging from energy and utilities to manuf
 }
 
 
-predictor = main.AnswerPredictor()
-answers = predictor.predict_answer(payload)
+mcq_payload = {
+    "input_text": "Sachin Ramesh Tendulkar is a former international cricketer from India and a former captain of the Indian national team. He is widely regarded as one of the greatest batsmen in the history of cricket. He is the highest run scorer of all time in International cricket."
+}
+
+# predictor = main.AnswerPredictor()
+# answers = predictor.predict_answer(qa_payload)
+# print(answers)
+
+start_time = perf_counter()
+qg = main.QGen()
+print('AI instantiated in', perf_counter()-start_time)
 
 
-print(answers)
+
+output = qg.predict_mcq(mcq_payload)
+pprint.pprint (output)
+
+
