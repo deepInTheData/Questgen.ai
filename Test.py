@@ -5,10 +5,10 @@ import nltk
 import spacy 
 
 
-nltk.download('brown')
-nltk.download('popular')
-nltk.download('universal_tagset')
-nltk.download('stopwords')
+nltk.download('brown', quiet=True)
+nltk.download('popular', quiet=True)
+nltk.download('universal_tagset', quiet=True)
+nltk.download('stopwords', quiet=True)
 # spacy.cli.download("en_core_web_sm")
 
 qa_payload = {

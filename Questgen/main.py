@@ -32,10 +32,10 @@ import time
 
 class QGen:
     
-    def __init__(self, pretrained_model='t5-large'):
+    def __init__(self, pretrained_model='t5-large', sense2vec_directory="s2v_old"):
 
         self.tokenizer = T5Tokenizer.from_pretrained(pretrained_model) # google/flan-t5-large
-        model = T5ForConditionalGeneration.from_pretrained('Parth/result')
+        model = T5ForConditionalGeneration.from_pretrained(pretrained_model) # 'Parth/result'
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         model.to(device)
         model.eval()
@@ -43,7 +43,7 @@ class QGen:
         self.model = model
         self.nlp = spacy.load('en_core_web_sm')
 
-        self.s2v = Sense2Vec().from_disk('s2v_old')
+        self.s2v = Sense2Vec().from_disk(sense2vec_directory)
 
         self.fdist = FreqDist(brown.words())
         self.normalized_levenshtein = NormalizedLevenshtein()
