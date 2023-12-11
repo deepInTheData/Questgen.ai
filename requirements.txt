@@ -15,3 +15,7 @@ python-dateutil
 flashtext
 pandas
 sentencepiece
+pke @ git+https://github.com/boudinfl/pke.git
+
+spacy 
+nltk
