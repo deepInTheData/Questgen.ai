@@ -32,14 +32,19 @@ import time
 
 
 class QGen:
-    def __init__(self, pretrained_model="t5-large", sense2vec_directory="s2v_old"):
+    def __init__(
+        self,
+        pretrained_model="t5-large",
+        tokenized_model="Parth/result",
+        sense2vec_directory="s2v_old",
+    ):
         # TODO:
         # See how to finetune with https://medium.com/nlplanet/a-full-guide-to-finetuning-t5-for-text2text-and-building-a-demo-with-streamlit-c72009631887
         self.tokenizer = T5Tokenizer.from_pretrained(
             pretrained_model
         )  # google/flan-t5-large
         model = T5ForConditionalGeneration.from_pretrained(
-            "Parth/result"
+            tokenized_model
         )  # 'Parth/result'
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         model.to(device)
