@@ -2,10 +2,10 @@ from distutils.core import setup
 
 setup(
     name="Questgen",
-    version="1.0.1",
+    version="1.1.0",
     description="Question generator from any text",
     author="Questgen contributors",
-    author_email="vaibhavtiwarifu@gmail.com",
+    author_email="vsomeemail@mail.com",
     packages=["Questgen", "Questgen.encoding", "Questgen.mcq"],
     url="https://github.com/deepInTheData/Questgen.ai",
     install_requires=[
